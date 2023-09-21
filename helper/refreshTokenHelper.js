@@ -6,9 +6,9 @@ export const generateRefreshToken = (data, role) => {
       return jwt.sign(data, config.SUPER_ADMIN_REFRESH_SECRET, { expiresIn: '1d' })
     case 'ADMIN':
       return jwt.sign(data, config.ADMIN_REFRESH_SECRET, { expiresIn: '1d' })
-    case 'SUPER_BROKER':
+    case 'SUPER_MASTER':
       return jwt.sign(data, config.SUPER_BROKER_REFRESH_SECRET, { expiresIn: '1d' })
-    case 'BROKER':
+    case 'MASTER':
       return jwt.sign(data, config.BROKER_REFRESH_SECRET, { expiresIn: '1d' })
     case 'USER':
       return jwt.sign(data, config.USER_REFRESH_SECRET, { expiresIn: '1d' })

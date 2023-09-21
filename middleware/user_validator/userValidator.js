@@ -1,8 +1,7 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
-import { validateAccessToken } from '../../helper/accessTokenHelper.js'
+import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 import { UserModel } from '../../modals/index.js'
-import logger from '../../utilities/logger.js'
 
 export const isUser = async (req, res, next, type = 1) => {
   try {
@@ -38,18 +37,11 @@ export const isUser = async (req, res, next, type = 1) => {
     // next for using this method only
     next()
   } catch (e) {
-    if (String(e).includes('jwt expired')) {
-      return sendBadRequestWith406Code(res, messages.tokenExpiredError)
-    } else if (String(e).includes('invalid token')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('jwt malformed')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('invalid signature')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
+    const error = await returnTokenError(e, 'IS_USER')
+    if (error !== messages.somethingGoneWrong) {
+      return sendBadRequestWith406Code(res, error)
+    } else {
+      return sendBadRequest(res, error)
     }
-
-    logger.error('IS_USER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
   }
 }

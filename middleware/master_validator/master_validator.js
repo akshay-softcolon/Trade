@@ -1,8 +1,8 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
 import { UserModel } from '../../modals/index.js'
-import logger from '../../utilities/logger.js'
-import { validateAccessToken } from '../../helper/accessTokenHelper.js'
+import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
+import { isAdmin } from '../admin_validatior/admin_validator.js'
 
 export const isSuperMaster = async (req, res, next, type = 1) => {
   try {
@@ -38,19 +38,15 @@ export const isSuperMaster = async (req, res, next, type = 1) => {
     // next for using this method only
     next()
   } catch (e) {
-    if (String(e).includes('jwt expired')) {
-      return sendBadRequestWith406Code(res, messages.tokenExpiredError)
-    } else if (String(e).includes('invalid token')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('jwt malformed')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('invalid signature')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
+    if (type === 0) {
+      return await isAdmin(req, res, next, type)
     }
-
-    logger.error('IS_SUPER_MASTER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    const error = await returnTokenError(e, 'IS_SUPER_MASTER')
+    if (error !== messages.somethingGoneWrong) {
+      return sendBadRequestWith406Code(res, error)
+    } else {
+      return sendBadRequest(res, error)
+    }
   }
 }
 
@@ -88,18 +84,18 @@ export const isMaster = async (req, res, next, type = 1) => {
     // next for using this method only
     next()
   } catch (e) {
-    if (String(e).includes('jwt expired')) {
-      return sendBadRequestWith406Code(res, messages.tokenExpiredError)
-    } else if (String(e).includes('invalid token')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('jwt malformed')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
-    } else if (String(e).includes('invalid signature')) {
-      return sendBadRequestWith406Code(res, messages.invalidToken)
+    if (type === 0) {
+      return await isSuperMaster(req, res, next, type)
     }
-
-    logger.error('IS_MASTER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    const error = await returnTokenError(e, 'IS_MASTER')
+    if (error !== messages.somethingGoneWrong) {
+      return sendBadRequestWith406Code(res, error)
+    } else {
+      return sendBadRequest(res, error)
+    }
   }
+}
+
+export const isAuthorizeToCreateUser = async (req, res, next) => {
+  await isMaster(req, res, next, 0)
 }

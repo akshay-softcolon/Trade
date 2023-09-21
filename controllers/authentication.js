@@ -6,6 +6,7 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 import messages from '../utilities/messages.js'
 import { generateAccessToken, tokenId } from '../helper/accessTokenHelper.js'
 import { generateRefreshToken } from '../helper/refreshTokenHelper.js'
+import { errorHelper } from '../helper/errorHelper.js'
 
 export const createMainAdmin = async () => {
   try {
@@ -33,9 +34,7 @@ export const checkID = async (req, res) => {
     if (admin) return sendSuccess(res, { exists: true }, messages.idAlreadyExist)
     return sendSuccess(res, { exists: false }, messages.idAvailable)
   } catch (e) {
-    logger.error('CHECK_ID')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CHECK_ID'))
   }
 }
 
@@ -59,37 +58,31 @@ export const createAdmin = async (req, res) => {
     if (!user) return sendBadRequest(res, messages.adminAlreadyExist)
     return sendSuccess(res, {}, messages.adminAdded)
   } catch (e) {
-    logger.error('CREATE_ADMIN')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CREATE_ADMIN'))
   }
 }
 
 // create Super broker
-export const createSuperBroker = async (req, res) => {
+export const createSuperMaster = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'SUPER_BROKER')
+    const user = await createUser(data.ID, data.password, 'SUPER_MASTER')
     if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
     return sendSuccess(res, {}, messages.brokerAdded)
   } catch (e) {
-    logger.error('CREATE_SUPER_BROKER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CREATE_SUPER_BROKER'))
   }
 }
 
 // create broker
-export const createBroker = async (req, res) => {
+export const createMaster = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'BROKER')
+    const user = await createUser(data.ID, data.password, 'MASTER')
     if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
     return sendSuccess(res, {}, messages.brokerAdded)
   } catch (e) {
-    logger.error('CREATE_BROKER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CREATE_BROKER'))
   }
 }
 
@@ -101,9 +94,7 @@ export const createTrader = async (req, res) => {
     if (!user) return sendBadRequest(res, messages.userAlreadyExist)
     return sendSuccess(res, {}, messages.userAdded)
   } catch (e) {
-    logger.error('CREATE_USER')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CREATE_USER'))
   }
 }
 
@@ -127,10 +118,7 @@ export const login = async (req, res) => {
     await user.save()
     return sendSuccess(res, { accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
   } catch (e) {
-    console.log(e)
-    logger.error('LOGIN')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'LOGIN'))
   }
 }
 
@@ -144,8 +132,6 @@ export const changePassword = async (req, res) => {
     await user.save()
     return sendSuccess(res, {}, messages.passwordChanged)
   } catch (e) {
-    logger.error('CHANGE_PASSWORD')
-    logger.error(e)
-    return sendBadRequest(res, messages.somethingGoneWrong)
+    return sendBadRequest(res, errorHelper(e, 'CHANGE_PASSWORD'))
   }
 }
