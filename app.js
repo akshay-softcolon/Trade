@@ -5,11 +5,11 @@ import cookieParser from 'cookie-parser'
 import { fileURLToPath } from 'url'
 import compression from 'compression'
 import cors from 'cors'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import morgan from 'morgan'
 import logger from './utilities/logger.js'
 import routes from './routes/index.js'
-import rateLimiter from './middleware/rateLimiter.js'
+// import rateLimiter from './middleware/rateLimiter.js'
 
 import './database/index.js'
 
@@ -20,13 +20,14 @@ const __dirname = dirname(__filename)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(rateLimiter)
+// app.use(rateLimiter)
 app.use(compression())
 app.use(cookieParser())
 app.use(cors())
-app.use(helmet())
-app.use(express.static(path.join(__dirname, 'public')))
-app.use('/', routes)
+
+// app.use(helmet())
+app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use('/api', routes)
 
 app.use(
   morgan('combined', {
