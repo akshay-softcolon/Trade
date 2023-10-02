@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2ef1453e-a709-448d-81ba-03a7891f2545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;staging&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/akshay/Documents/Softcolon/Trade/utilities&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -72,10 +71,27 @@
       <workItem from="1695182144751" duration="12462000" />
       <workItem from="1695267916297" duration="11575000" />
       <workItem from="1695353908851" duration="1938000" />
+      <workItem from="1695633957718" duration="424000" />
+      <workItem from="1695699987761" duration="1115000" />
+      <workItem from="1695786954475" duration="614000" />
+      <workItem from="1695872497012" duration="2071000" />
+      <workItem from="1695959368888" duration="1211000" />
+      <workItem from="1696218075622" duration="1316000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
