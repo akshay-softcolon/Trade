@@ -1,6 +1,6 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
-import { UserModel } from '../../modals/index.js'
+import { UserModel } from '../../models/index.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 
 export const isSuperAdmin = async (req, res, next, type = 1) => {

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ef1453e-a709-448d-81ba-03a7891f2545" name="Changes" comment="" />
+    <list default="true" id="2ef1453e-a709-448d-81ba-03a7891f2545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/controllers/authentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/authentication.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/admin_validatior/admin_validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/admin_validatior/admin_validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/master_validator/master_validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/master_validator/master_validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/user_validator/userValidator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/user_validator/userValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modals/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +85,7 @@
       <workItem from="1695786954475" duration="614000" />
       <workItem from="1695872497012" duration="2071000" />
       <workItem from="1695959368888" duration="1211000" />
-      <workItem from="1696218075622" duration="1993000" />
+      <workItem from="1696218075622" duration="2402000" />
     </task>
     <servers />
   </component>

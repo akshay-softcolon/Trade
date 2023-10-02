@@ -1,6 +1,6 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
-import { UserModel } from '../../modals/index.js'
+import { UserModel } from '../../models/index.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 import { isAdmin } from '../admin_validatior/admin_validator.js'
 

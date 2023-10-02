@@ -1,5 +1,5 @@
 import config from '../config/index.js'
-import { UserModel } from '../modals/index.js'
+import { UserModel } from '../models/index.js'
 import logger from '../utilities/logger.js'
 import bcrypt from 'bcrypt'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
