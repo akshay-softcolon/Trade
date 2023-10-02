@@ -1,49 +1,52 @@
-"use strict";
+'use strict'
 
-import mongoose from "mongoose";
-import logger from "../utilities/logger.js";
-import config from "../config/index.js";
-import { shutDown } from "../utilities/serverUtils/shutDown.js";
+import mongoose from 'mongoose'
+import logger from '../utilities/logger.js'
+import config from '../config/index.js'
+import { shutDown } from '../utilities/serverUtils/shutDown.js'
+import { createMainAdmin } from '../controllers/authentication.js'
 
 mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+  useUnifiedTopology: true
+})
 
-const db = mongoose.connection;
+const db = mongoose.connection
 
-db.on("connecting", () => {
-  logger.info({ message: "MongoDB Connecting" });
-});
+db.on('connecting', () => {
+  logger.info({ message: 'MongoDB Connecting' })
+})
 
-db.once("open", () => {
-  console.log("MONGO-DB DATABASE CONNECTED");
-  logger.info({ message: "MongoDB connected" });
-});
+db.once('open', async () => {
+  console.log('MONGO-DB DATABASE CONNECTED')
+  logger.info({ message: 'MongoDB connected' })
 
-db.on("disconnecting", () => {
-  logger.warn({ message: "MongoDB Disconnecting" });
-});
+  await createMainAdmin()
+})
 
-db.on("disconnected", () => {
-  logger.warn({ message: "MongoDB Disconnected" });
-});
+db.on('disconnecting', () => {
+  logger.warn({ message: 'MongoDB Disconnecting' })
+})
 
-db.on("close", () => {
-  logger.warn({ message: "MongoDB Connection Closed Successfully!" });
-});
+db.on('disconnected', () => {
+  logger.warn({ message: 'MongoDB Disconnected' })
+})
 
-db.on("reconnected", () => {
-  logger.warn({ message: "MongoDB Reconnected" });
-});
+db.on('close', () => {
+  logger.warn({ message: 'MongoDB Connection Closed Successfully!' })
+})
 
-db.on("reconnectFailed", () => {
-  logger.warn({ message: "MongoDB Reconnect Failed" });
-});
+db.on('reconnected', () => {
+  logger.warn({ message: 'MongoDB Reconnected' })
+})
 
-db.on("error", (err) => {
-  logger.error({ message: `MongoDB connection error - ${err.toString()}` });
-  shutDown(true);
-});
+db.on('reconnectFailed', () => {
+  logger.warn({ message: 'MongoDB Reconnect Failed' })
+})
 
-export default db;
+db.on('error', (err) => {
+  logger.error({ message: `MongoDB connection error - ${err.toString()}` })
+  shutDown(true)
+})
+
+export default db
