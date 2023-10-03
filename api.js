@@ -4,6 +4,8 @@ import { hasAccess } from './middleware/hasAccess.js'
 
 import adminRoute from './modules/admin/index.js'
 import symbolRoute from './modules/symbol/index.js'
+import exchangeRoute from './modules/exchange/index.js'
+
 const router = express.Router()
 
 const handlers = {
@@ -13,6 +15,10 @@ const handlers = {
   },
   symbol: {
     path: symbolRoute,
+    authenticate: false
+  },
+  exchange: {
+    path: exchangeRoute,
     authenticate: false
   }
 }

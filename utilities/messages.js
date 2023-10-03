@@ -35,7 +35,16 @@ const messages = {
   symbolNotFound: 'Symbol not found',
   symbolUpdated: 'Symbol updated',
   ThisNameIsAlreadyTaken: 'This name is already taken',
-  symbolDeleted: 'symbol deleted'
+  symbolDeleted: 'symbol deleted',
+
+  // exchange
+  exchangeNameIsRequired: 'Exchange name is required',
+  exchangeIsAlreadyExist: 'Exchange is already exists',
+  symbolIsAlreadyTaken: 'Symbol is already taken',
+  exchangeCreated: 'Exchange created',
+  exchangeNotFound: 'Exchange not found',
+  exchangeUpdated: 'Exchange updated',
+  exchangeDeleted: 'Exchange deleted'
 }
 
 export default messages

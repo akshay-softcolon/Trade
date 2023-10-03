@@ -6,6 +6,7 @@ import { shutDown } from '../utilities/serverUtils/shutDown.js'
 import { UserModel } from '../modules/admin/model.js'
 import { createMainAdmin } from '../modules/admin/controller.js'
 import { SymbolModel } from '../modules/symbol/model.js'
+import { ExchangeModel } from '../modules/exchange/model.js'
 
 mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
@@ -54,7 +55,8 @@ const syncAllModel = async () => { // Sync Model
   try {
     await Promise.all([
       UserModel.syncIndexes(),
-      SymbolModel.syncIndexes()
+      SymbolModel.syncIndexes(),
+      ExchangeModel.syncIndexes()
     ])
   } catch (error) {
     logger.debug(error)
