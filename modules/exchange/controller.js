@@ -100,3 +100,53 @@ export const deleteExchange = async (req, res) => {
     return sendBadRequest(res, messages.somethingGoneWrong)
   }
 }
+
+export const exchangeInAddSymbols = async (req, res) => {
+  try {
+    const data = req.body
+    const exchangeDetails = await ExchangeModel.findOne({
+      _id: req.params?.exchangeId
+    })
+    if (!exchangeDetails) return sendBadRequest(res, messages.exchangeNotFound)
+
+    for (const symbol of data?.symbols) {
+      const symbolDetails = await SymbolModel.findOne({ _id: symbol })
+      if (!symbolDetails) return sendBadRequest(res, messages.symbolNotFound)
+      const exchangeDetailsForSymbol = await ExchangeModel.findOne().where('symbols').equals(symbol)
+      if (exchangeDetailsForSymbol) return sendBadRequest(res, messages.symbolIsAlreadyTaken)
+      await exchangeDetails.symbols.push(symbol)
+    }
+
+    await exchangeDetails.save()
+    return sendSuccess(res, messages.symbolsAddedInExchange)
+  } catch (e) {
+    logger.error('EXCHANGE_IN_ADD_SYMBOL_ERROR')
+    logger.error(e)
+    return sendBadRequest(res, messages.somethingGoneWrong)
+  }
+}
+
+export const exchangeInRemoveSymbols = async (req, res) => {
+  try {
+    const data = req.body
+    const param = req.params?.exchangeId
+    const exchangeDetails = await ExchangeModel.findOne({
+      _id: param
+    })
+    if (!exchangeDetails) return sendBadRequest(res, messages.exchangeNotFound)
+
+    for (const symbol of data?.symbols) {
+      const symbolDetails = await SymbolModel.findOne({ _id: symbol })
+      if (!symbolDetails) return sendBadRequest(res, messages.symbolNotFound)
+      const exchangeDetailsForSymbol = await ExchangeModel.findOne({ _id: param }).where('symbols').equals(symbol)
+      if (!exchangeDetailsForSymbol) return sendBadRequest(res, messages.symbolIsNotExistInExchangeDetails)
+      await exchangeDetails.symbols.splice(exchangeDetails.symbols.findIndex((i) => i.equals(symbol)), 1)
+    }
+    await exchangeDetails.save()
+    return sendSuccess(res, messages.symbolsRemovedInExchange)
+  } catch (e) {
+    logger.error('EXCHANGE_IN_REMOVE_SYMBOL_ERROR')
+    logger.error(e)
+    return sendBadRequest(res, messages.somethingGoneWrong)
+  }
+}

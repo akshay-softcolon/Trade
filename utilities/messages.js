@@ -44,7 +44,10 @@ const messages = {
   exchangeCreated: 'Exchange created',
   exchangeNotFound: 'Exchange not found',
   exchangeUpdated: 'Exchange updated',
-  exchangeDeleted: 'Exchange deleted'
+  exchangeDeleted: 'Exchange deleted',
+  symbolsAddedInExchange: 'Symbols added in exchange',
+  symbolIsNotExistInExchangeDetails: 'Symbols not found in exchange',
+  symbolsRemovedInExchange: 'Symbols removed in exchange'
 }
 
 export default messages
