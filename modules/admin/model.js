@@ -1,7 +1,5 @@
 import mongoose from 'mongoose'
-// import encrypt from 'mongoose-encryption'
-import Constant from '../utilities/constant.js'
-// import config from '../config/index.js'
+import Constant from '../../utilities/constant.js'
 const Schema = mongoose.Schema
 
 const userSchema = new Schema(
@@ -37,15 +35,5 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 )
-
-// userSchema.plugin(encrypt, { secret: config.DATABASE.MONGO_FIELD_SECRET, encryptedFields: ['ID'] })
-
-// userSchema.plugin(fieldEncryption, {
-//   fields: ['ID'],
-//   secret: config.DATABASE.MONGO_FIELD_SECRET,
-//   saltGenerator: (secret) => {
-//     return '7987498749844645'
-//   }
-// })
 
 export const UserModel = mongoose.model('users', userSchema)

@@ -1,10 +1,11 @@
-'use strict'
 
 import mongoose from 'mongoose'
 import logger from '../utilities/logger.js'
 import config from '../config/index.js'
 import { shutDown } from '../utilities/serverUtils/shutDown.js'
-import { createMainAdmin } from '../controllers/authentication.js'
+import { UserModel } from '../modules/admin/model.js'
+import { createMainAdmin } from '../modules/admin/controller.js'
+import { SymbolModel } from '../modules/symbol/model.js'
 
 mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
@@ -20,7 +21,7 @@ db.on('connecting', () => {
 db.once('open', async () => {
   console.log('MONGO-DB DATABASE CONNECTED')
   logger.info({ message: 'MongoDB connected' })
-
+  await syncAllModel()
   await createMainAdmin()
 })
 
@@ -48,5 +49,16 @@ db.on('error', (err) => {
   logger.error({ message: `MongoDB connection error - ${err.toString()}` })
   shutDown(true)
 })
+
+const syncAllModel = async () => { // Sync Model
+  try {
+    await Promise.all([
+      UserModel.syncIndexes(),
+      SymbolModel.syncIndexes()
+    ])
+  } catch (error) {
+    logger.debug(error)
+  }
+}
 
 export default db

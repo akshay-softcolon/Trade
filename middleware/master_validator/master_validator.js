@@ -1,8 +1,8 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
-import { UserModel } from '../../modals/index.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 import { isAdmin } from '../admin_validatior/admin_validator.js'
+import { UserModel } from '../../modules/admin/model.js'
 
 export const isSuperMaster = async (req, res, next, type = 1) => {
   try {

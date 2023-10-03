@@ -1,7 +1,7 @@
 import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/response/index.js'
 import messages from '../../utilities/messages.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
-import { UserModel } from '../../modals/index.js'
+import { UserModel } from '../../modules/admin/model.js'
 
 export const isUser = async (req, res, next, type = 1) => {
   try {

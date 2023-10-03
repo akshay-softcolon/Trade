@@ -25,7 +25,17 @@ const messages = {
   authTokenRequired: 'Auth token required',
   tokenFormatInvalid: 'Token format invalid',
   tokenExpiredError: 'Token expired',
-  invalidToken: 'Invalid token'
+  invalidToken: 'Invalid token',
+
+  // symbol
+  symbolNameIsRequired: 'Symbol name is required',
+  symbolNameIsAlreadyExists: 'Symbol name is already exists',
+  symbolNotCreated: 'Symbol not created',
+  symbolCreated: 'Symbol created',
+  symbolNotFound: 'Symbol not found',
+  symbolUpdated: 'Symbol updated',
+  ThisNameIsAlreadyTaken: 'This name is already taken',
+  symbolDeleted: 'symbol deleted'
 }
 
 export default messages

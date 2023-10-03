@@ -1,12 +1,50 @@
-import config from '../config/index.js'
-import { UserModel } from '../modals/index.js'
-import logger from '../utilities/logger.js'
+import { errorHelper } from '../../helper/errorHelper.js'
+import { UserModel } from './model.js'
+import messages from '../../utilities/messages.js'
+import { sendBadRequest, sendSuccess } from '../../utilities/response/index.js'
 import bcrypt from 'bcrypt'
-import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
-import messages from '../utilities/messages.js'
-import { generateAccessToken, tokenId } from '../helper/accessTokenHelper.js'
-import { generateRefreshToken } from '../helper/refreshTokenHelper.js'
-import { errorHelper } from '../helper/errorHelper.js'
+import config from '../../config/index.js'
+import logger from '../../utilities/logger.js'
+import { generateAccessToken, tokenId } from '../../helper/accessTokenHelper.js'
+import { generateRefreshToken } from '../../helper/refreshTokenHelper.js'
+
+export const changePassword = async (req, res) => {
+  try {
+    const data = req.body
+    const user = await UserModel.findById(req.user._id ?? req.superAdmin._id ?? req.admin._id ?? req.master._id ?? req.superMaster._id)
+    if (!user) return sendBadRequest(res, messages.adminNotFound)
+    if (!bcrypt.compareSync(data.oldPassword, user.password)) return sendBadRequest(res, messages.invalidPassword)
+    user.password = bcrypt.hashSync(data.newPassword, 10)
+    await user.save()
+    return sendSuccess(res, {}, messages.passwordChanged)
+  } catch (e) {
+    return sendBadRequest(res, errorHelper(e, 'CHANGE_PASSWORD'))
+  }
+}
+
+const createUser = async (id, password, role) => {
+  const user = await UserModel.findOne({ ID: id })
+  if (user) return false
+  const userData = {
+    ID: id,
+    password: bcrypt.hashSync(password, 10),
+    role
+  }
+  await new UserModel(userData).save()
+  return true
+}
+
+// create broker
+export const createMaster = async (req, res) => {
+  try {
+    const data = req.body
+    const user = await createUser(data.ID, data.password, 'MASTER')
+    if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
+    return sendSuccess(res, {}, messages.brokerAdded)
+  } catch (e) {
+    return sendBadRequest(res, errorHelper(e, 'CREATE_BROKER'))
+  }
+}
 
 export const createMainAdmin = async () => {
   try {
@@ -38,18 +76,6 @@ export const checkID = async (req, res) => {
   }
 }
 
-const createUser = async (id, password, role) => {
-  const user = await UserModel.findOne({ ID: id })
-  if (user) return false
-  const userData = {
-    ID: id,
-    password: bcrypt.hashSync(password, 10),
-    role
-  }
-  await new UserModel(userData).save()
-  return true
-}
-
 // create admin
 export const createAdmin = async (req, res) => {
   try {
@@ -74,18 +100,6 @@ export const createSuperMaster = async (req, res) => {
   }
 }
 
-// create broker
-export const createMaster = async (req, res) => {
-  try {
-    const data = req.body
-    const user = await createUser(data.ID, data.password, 'MASTER')
-    if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
-    return sendSuccess(res, {}, messages.brokerAdded)
-  } catch (e) {
-    return sendBadRequest(res, errorHelper(e, 'CREATE_BROKER'))
-  }
-}
-
 // create user
 export const createTrader = async (req, res) => {
   try {
@@ -102,7 +116,7 @@ export const createTrader = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const data = req.body
-
+    console.log(data.ID)
     const user = await UserModel.findOne({ ID: data.ID })
     if (!user) return sendBadRequest(res, messages.adminNotFound)
     if (!bcrypt.compareSync(data.password, user.password)) return sendBadRequest(res, messages.invalidPassword)
@@ -119,19 +133,5 @@ export const login = async (req, res) => {
     return sendSuccess(res, { accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
   } catch (e) {
     return sendBadRequest(res, errorHelper(e, 'LOGIN'))
-  }
-}
-
-export const changePassword = async (req, res) => {
-  try {
-    const data = req.body
-    const user = await UserModel.findById(req.user._id ?? req.superAdmin._id ?? req.admin._id ?? req.master._id ?? req.superMaster._id)
-    if (!user) return sendBadRequest(res, messages.adminNotFound)
-    if (!bcrypt.compareSync(data.oldPassword, user.password)) return sendBadRequest(res, messages.invalidPassword)
-    user.password = bcrypt.hashSync(data.newPassword, 10)
-    await user.save()
-    return sendSuccess(res, {}, messages.passwordChanged)
-  } catch (e) {
-    return sendBadRequest(res, errorHelper(e, 'CHANGE_PASSWORD'))
   }
 }

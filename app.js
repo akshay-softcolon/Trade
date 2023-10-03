@@ -8,9 +8,8 @@ import cors from 'cors'
 // import helmet from 'helmet'
 import morgan from 'morgan'
 import logger from './utilities/logger.js'
-import routes from './routes/index.js'
 // import rateLimiter from './middleware/rateLimiter.js'
-
+import api from './api.js'
 import './database/index.js'
 
 const app = express()
@@ -27,7 +26,8 @@ app.use(cors())
 
 // app.use(helmet())
 app.use('/public', express.static(path.join(__dirname, 'public')))
-app.use('/api', routes)
+
+app.use('/api', api)
 
 app.use(
   morgan('combined', {
