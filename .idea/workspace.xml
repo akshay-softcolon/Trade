@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ef1453e-a709-448d-81ba-03a7891f2545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/symbol/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/symbol/model.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +38,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;staging&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/akshay/Documents/Softcolon/Trade/utilities&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -83,6 +84,8 @@
       <workItem from="1695959368888" duration="1211000" />
       <workItem from="1696218075622" duration="2402000" />
       <workItem from="1696306250975" duration="598000" />
+      <workItem from="1696335377307" duration="598000" />
+      <workItem from="1696390396627" duration="1390000" />
     </task>
     <servers />
   </component>

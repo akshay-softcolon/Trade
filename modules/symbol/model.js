@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import constant from '../../utilities/constant'
+import constant from '../../utilities/constant.js'
 const Schema = mongoose.Schema
 
 const symbolSchema = new Schema(
@@ -28,7 +28,7 @@ const symbolSchema = new Schema(
     tickValue: {
       type: Number
     },
-    inrialMargin: {
+    inRialMargin: {
       type: Number
     },
     maintenanceMargin: {
