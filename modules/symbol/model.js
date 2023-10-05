@@ -28,7 +28,7 @@ const symbolSchema = new Schema(
     tickValue: {
       type: Number
     },
-    inrialMargin: {
+    inRialMargin: {
       type: Number
     },
     maintenanceMargin: {
