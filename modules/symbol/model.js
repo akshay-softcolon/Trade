@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import constant from '../../utilities/constant'
+import constant from '../../utilities/constant.js'
 const Schema = mongoose.Schema
 
 const symbolSchema = new Schema(
