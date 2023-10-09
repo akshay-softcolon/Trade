@@ -7,6 +7,8 @@ import config from '../../config/index.js'
 import logger from '../../utilities/logger.js'
 import { generateAccessToken, tokenId } from '../../helper/accessTokenHelper.js'
 import { generateRefreshToken } from '../../helper/refreshTokenHelper.js'
+import constant from '../../utilities/constant.js'
+import { ExchangeModel } from '../exchange/model.js'
 
 export const changePassword = async (req, res) => {
   try {
@@ -22,16 +24,38 @@ export const changePassword = async (req, res) => {
   }
 }
 
-const createUser = async (id, password, role) => {
-  const user = await UserModel.findOne({ ID: id })
+const createUser = async (data, createdId) => {
+  const user = await UserModel.findOne({ ID: data.ID })
   if (user) return false
-  const userData = {
-    ID: id,
-    password: bcrypt.hashSync(password, 10),
-    role
+  const userData = {}
+  if (data.allowedExchange) {
+    await data?.allowedExchange?.forEach((i) => {
+      const exchange = ExchangeModel.findOne({ _id: i })
+      if (!exchange) { return false }
+      // return sendBadRequest(, messages.exchangeNotFound)
+    })
+    userData.allowedExchange = data.allowedExchange
   }
-  await new UserModel(userData).save()
-  return true
+  if (constant.ROLE[1] === data?.role) {
+    userData.ID = data?.ID?.toString().trim() ? data.ID : undefined
+    userData.name = data?.name?.toString().trim() ? data.name : undefined
+    userData.surname = data?.surname?.toString().trim() ? data.surname : undefined
+    userData.password = data?.password?.toString().trim() ? bcrypt.hashSync(data.password, 10) : undefined
+    userData.role = data.role
+    userData.createdBy = createdId
+    userData.Domain = data?.Domain?.toString().trim() ? data.Domain : undefined
+    userData.exchangeGroup = data?.exchangeGroup
+    userData.leverageX = !isNaN(data?.leverageX) ? data.leverageX : undefined
+    userData.leverageY = !isNaN(data?.leverageY) ? data.leverageY : undefined
+    userData.insertCustomBet = Object.keys(data).includes('insertCustomBet') ? data.insertCustomBet : undefined
+    userData.editBet = Object.keys(data).includes('editBet') ? data.editBet : undefined
+    userData.deleteBet = Object.keys(data).includes('deleteBet') ? data.deleteBet : undefined
+    userData.limitOfAddSuperMaster = !isNaN(data?.limitOfAddSuperMaster) ? data.limitOfAddSuperMaster : undefined
+    userData.limitOfAddMaster = !isNaN(data?.limitOfAddMaster) ? data.limitOfAddMaster : undefined
+    userData.limitOfAddUser = !isNaN(data?.limitOfAddUser) ? data.limitOfAddUser : undefined
+    await new UserModel(userData).save()
+    return true
+  }
 }
 
 // create broker
@@ -80,7 +104,7 @@ export const checkID = async (req, res) => {
 export const createAdmin = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'ADMIN')
+    const user = await createUser(data, req.superAdmin._id)
     if (!user) return sendBadRequest(res, messages.adminAlreadyExist)
     return sendSuccess(res, {}, messages.adminAdded)
   } catch (e) {

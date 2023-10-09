@@ -1,6 +1,21 @@
 const messages = {
+  // required fields
   somethingGoneWrong: 'Something went wrong',
   passwordChanged: 'Password changed successfully',
+  nameIsRequired: 'Name is required',
+  IDIsRequired: 'ID is required',
+  passwordIsRequired: 'Password is required',
+  DomainIsRequired: 'Domain is required',
+  allowedExchange: 'Exchange is required',
+  exchangeGroupIsRequired: 'Exchange group is required',
+  leverageXIsRequired: 'leverage X is required',
+  leverageYIsRequired: 'leverage Y is required',
+  insertCustomBetIsRequired: 'Insert customBet is required',
+  editBetIsRequired: 'Edit Bet is required',
+  deleteBetIsRequired: 'Delete Bet is required',
+  limitOfAddSuperMasterIsRequired: 'Limit of add super master is required',
+  limitOfAddMasterIsRequired: 'Limit of add master is required',
+  limitOfAddUserIsRequired: 'Limit of add user is required',
 
   // id
   idAlreadyExist: 'ID already exist',

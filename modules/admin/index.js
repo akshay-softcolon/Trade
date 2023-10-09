@@ -3,11 +3,30 @@ import { changePassword, createAdmin, createMaster, createSuperMaster, createTra
 import { isAdmin, isSuperAdmin } from '../../middleware/admin_validatior/admin_validator.js'
 import { isAuthorizeToCreateUser, isMaster, isSuperMaster } from '../../middleware/master_validator/master_validator.js'
 import { isUser } from '../../middleware/user_validator/userValidator.js'
+import { check } from 'express-validator'
+import { validateField } from '../../middleware/field_validator/index.js'
+import messages from '../../utilities/messages.js'
 
 const router = express.Router()
 // 1 admin
 
-router.post('/admin', isSuperAdmin, createAdmin)
+router.post('/admin', isSuperAdmin, [
+  check('name').exists().withMessage(messages.nameIsRequired),
+  check('ID').exists().withMessage(messages.IDIsRequired),
+  check('password').exists().withMessage(messages.passwordIsRequired),
+  check('Domain').exists().withMessage(messages.DomainIsRequired),
+  check('allowedExchange').exists().withMessage(messages.allowedExchangeIsRequired),
+  check('exchangeGroup').exists().withMessage(messages.exchangeGroupIsRequired),
+  check('leverageX').exists().withMessage(messages.leverageXIsRequired),
+  check('leverageY').exists().withMessage(messages.leverageYIsRequired),
+  check('insertCustomBet').exists().withMessage(messages.insertCustomBetIsRequired),
+  check('editBet').exists().withMessage(messages.editBetIsRequired),
+  check('deleteBet').exists().withMessage(messages.deleteBetIsRequired),
+  check('limitOfAddSuperMaster').exists().withMessage(messages.limitOfAddSuperMasterIsRequired),
+  check('limitOfAddMaster').exists().withMessage(messages.limitOfAddMasterIsRequired),
+  check('limitOfAddUser').exists().withMessage(messages.limitOfAddUserIsRequired)
+],
+validateField, createAdmin)
 
 router.put('/admin/change/password', isAdmin, changePassword)
 

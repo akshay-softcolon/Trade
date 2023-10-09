@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import Constant from '../../utilities/constant.js'
 const Schema = mongoose.Schema
-
+const { ObjectId } = mongoose.Schema
 const userSchema = new Schema(
   {
     ID: {
@@ -24,6 +24,35 @@ const userSchema = new Schema(
       type: String,
       enum: Constant.ROLE
     },
+    allowedExchange: [
+      {
+        type: ObjectId,
+        ref: 'exchange'
+      }
+    ],
+    Domain: {
+      type: String,
+      trim: true
+    },
+    exchangeGroup: [{
+      type: Number,
+      trim: true
+    }],
+    leverageX: {
+      type: Number
+    },
+    leverageY: {
+      type: Number
+    },
+    insertCustomBet: {
+      type: Boolean
+    },
+    editBet: {
+      type: Boolean
+    },
+    deleteBet: {
+      type: Boolean
+    },
     accessTokenId: {
       type: String,
       trim: true
@@ -31,6 +60,22 @@ const userSchema = new Schema(
     refreshTokenId: {
       type: String,
       trim: true
+    },
+    limitOfAddSuperMaster: {
+      type: Number
+    },
+    limitOfAddMaster: {
+      type: Number
+    },
+    limitOfAddUser: {
+      type: Number
+    },
+    brokerage: {
+      type: Number
+    },
+    createdBy: {
+      type: ObjectId,
+      ref: 'users'
     }
   },
   { timestamps: true }
