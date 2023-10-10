@@ -73,6 +73,10 @@ const userSchema = new Schema(
     brokerage: {
       type: Number
     },
+    investorPassword: {
+      type: String,
+      trim: true
+    },
     createdBy: {
       type: ObjectId,
       ref: 'users'

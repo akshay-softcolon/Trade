@@ -16,6 +16,8 @@ const messages = {
   limitOfAddSuperMasterIsRequired: 'Limit of add super master is required',
   limitOfAddMasterIsRequired: 'Limit of add master is required',
   limitOfAddUserIsRequired: 'Limit of add user is required',
+  brokerageIsRequired: 'Brokerage is required',
+  investorPasswordIsRequired: 'Investor password is required',
 
   // id
   idAlreadyExist: 'ID already exist',

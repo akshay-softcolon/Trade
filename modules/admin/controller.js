@@ -36,25 +36,55 @@ const createUser = async (data, createdId) => {
     })
     userData.allowedExchange = data.allowedExchange
   }
-  if (constant.ROLE[1] === data?.role) {
+  const setUserProperties = async (userData, data, createdId) => {
     userData.ID = data?.ID?.toString().trim() ? data.ID : undefined
     userData.name = data?.name?.toString().trim() ? data.name : undefined
     userData.surname = data?.surname?.toString().trim() ? data.surname : undefined
     userData.password = data?.password?.toString().trim() ? bcrypt.hashSync(data.password, 10) : undefined
     userData.role = data.role
     userData.createdBy = createdId
-    userData.Domain = data?.Domain?.toString().trim() ? data.Domain : undefined
     userData.exchangeGroup = data?.exchangeGroup
     userData.leverageX = !isNaN(data?.leverageX) ? data.leverageX : undefined
     userData.leverageY = !isNaN(data?.leverageY) ? data.leverageY : undefined
-    userData.insertCustomBet = Object.keys(data).includes('insertCustomBet') ? data.insertCustomBet : undefined
-    userData.editBet = Object.keys(data).includes('editBet') ? data.editBet : undefined
-    userData.deleteBet = Object.keys(data).includes('deleteBet') ? data.deleteBet : undefined
-    userData.limitOfAddSuperMaster = !isNaN(data?.limitOfAddSuperMaster) ? data.limitOfAddSuperMaster : undefined
-    userData.limitOfAddMaster = !isNaN(data?.limitOfAddMaster) ? data.limitOfAddMaster : undefined
-    userData.limitOfAddUser = !isNaN(data?.limitOfAddUser) ? data.limitOfAddUser : undefined
-    await new UserModel(userData).save()
-    return true
+    return userData
+  }
+  switch (data.role) {
+    case constant.ROLE[1]:
+      await setUserProperties(userData, data, createdId)
+      userData.Domain = data?.Domain?.toString().trim() ? data.Domain : undefined
+      userData.limitOfAddSuperMaster = !isNaN(data?.limitOfAddSuperMaster) ? data.limitOfAddSuperMaster : undefined
+      userData.limitOfAddMaster = !isNaN(data?.limitOfAddMaster) ? data.limitOfAddMaster : undefined
+      userData.limitOfAddUser = !isNaN(data?.limitOfAddUser) ? data.limitOfAddUser : undefined
+      userData.insertCustomBet = Object.keys(data).includes('insertCustomBet') ? data.insertCustomBet : undefined
+      userData.editBet = Object.keys(data).includes('editBet') ? data.editBet : undefined
+      userData.deleteBet = Object.keys(data).includes('deleteBet') ? data.deleteBet : undefined
+      await new UserModel(userData).save()
+      return true
+    case constant.ROLE[2]:
+      await setUserProperties(userData, data, createdId)
+      userData.limitOfAddMaster = !isNaN(data?.limitOfAddMaster) ? data.limitOfAddMaster : undefined
+      userData.limitOfAddUser = !isNaN(data?.limitOfAddUser) ? data.limitOfAddUser : undefined
+      userData.insertCustomBet = Object.keys(data).includes('insertCustomBet') ? data.insertCustomBet : undefined
+      userData.editBet = Object.keys(data).includes('editBet') ? data.editBet : undefined
+      userData.deleteBet = Object.keys(data).includes('deleteBet') ? data.deleteBet : undefined
+      await new UserModel(userData).save()
+      return true
+    case constant.ROLE[3]:
+      await setUserProperties(userData, data, createdId)
+      userData.limitOfAddUser = !isNaN(data?.limitOfAddUser) ? data.limitOfAddUser : undefined
+      userData.insertCustomBet = Object.keys(data).includes('insertCustomBet') ? data.insertCustomBet : undefined
+      userData.editBet = Object.keys(data).includes('editBet') ? data.editBet : undefined
+      userData.deleteBet = Object.keys(data).includes('deleteBet') ? data.deleteBet : undefined
+      await new UserModel(userData).save()
+      return true
+    case constant.ROLE[4]:
+      await setUserProperties(userData, data, createdId)
+      userData.investorPassword = data?.investorPassword?.toString().trim() ? bcrypt.hashSync(data.investorPassword, 10) : undefined
+      userData.brokerage = !isNaN(data?.brokerage) ? data?.brokerage : undefined
+      await new UserModel(userData).save()
+      return true
+    default:
+      return false
   }
 }
 
@@ -62,7 +92,7 @@ const createUser = async (data, createdId) => {
 export const createMaster = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'MASTER')
+    const user = await createUser(data, req.superMaster ? req.superMaster : req.admin)
     if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
     return sendSuccess(res, {}, messages.brokerAdded)
   } catch (e) {
@@ -116,7 +146,7 @@ export const createAdmin = async (req, res) => {
 export const createSuperMaster = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'SUPER_MASTER')
+    const user = await createUser(data, req.admin._id)
     if (!user) return sendBadRequest(res, messages.brokerAlreadyExist)
     return sendSuccess(res, {}, messages.brokerAdded)
   } catch (e) {
@@ -128,7 +158,18 @@ export const createSuperMaster = async (req, res) => {
 export const createTrader = async (req, res) => {
   try {
     const data = req.body
-    const user = await createUser(data.ID, data.password, 'USER')
+    let adminDetails = {}
+    switch (true) {
+      case Boolean(req.master):
+        adminDetails = req.master
+        break
+      case Boolean(req.superMaster):
+        adminDetails = req.superMaster
+        break
+      default:
+        adminDetails = req.admin
+    }
+    const user = await createUser(data, adminDetails)
     if (!user) return sendBadRequest(res, messages.userAlreadyExist)
     return sendSuccess(res, {}, messages.userAdded)
   } catch (e) {
@@ -140,7 +181,6 @@ export const createTrader = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const data = req.body
-    console.log(data.ID)
     const user = await UserModel.findOne({ ID: data.ID })
     if (!user) return sendBadRequest(res, messages.adminNotFound)
     if (!bcrypt.compareSync(data.password, user.password)) return sendBadRequest(res, messages.invalidPassword)
@@ -156,6 +196,7 @@ export const login = async (req, res) => {
     await user.save()
     return sendSuccess(res, { accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
   } catch (e) {
+    console.log(e)
     return sendBadRequest(res, errorHelper(e, 'LOGIN'))
   }
 }

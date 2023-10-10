@@ -10,9 +10,9 @@ export const generateAccessToken = (data, role) => {
     case 'ADMIN':
       return jwt.sign(data, config.ADMIN_SECRET, { expiresIn: '30m' })
     case 'SUPER_MASTER':
-      return jwt.sign(data, config.SUPER_BROKER_SECRET, { expiresIn: '30m' })
+      return jwt.sign(data, config.SUPER_MASTER_SECRET, { expiresIn: '30m' })
     case 'MASTER':
-      return jwt.sign(data, config.BROKER_SECRET, { expiresIn: '30m' })
+      return jwt.sign(data, config.MASTER_SECRET, { expiresIn: '30m' })
     case 'USER':
       return jwt.sign(data, config.USER_SECRET, { expiresIn: '30m' })
     default:

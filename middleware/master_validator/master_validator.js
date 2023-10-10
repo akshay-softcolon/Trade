@@ -13,7 +13,6 @@ export const isSuperMaster = async (req, res, next, type = 1) => {
     const tokenInfo = await validateAccessToken(String(bearerToken).split(' ')[1], 'SUPER_MASTER')
     // token and token id find n  ext step
     if (!tokenInfo && !tokenInfo._id) return sendBadRequestWith406Code(res, messages.tokenFormatInvalid)
-
     const adminDetails = await UserModel.findOne(
       { _id: tokenInfo._id },
       {
@@ -98,4 +97,8 @@ export const isMaster = async (req, res, next, type = 1) => {
 
 export const isAuthorizeToCreateUser = async (req, res, next) => {
   await isMaster(req, res, next, 0)
+}
+
+export const isAuthorizeToCreateMaster = async (req, res, next) => {
+  await isSuperMaster(req, res, next, 0)
 }

@@ -11,6 +11,7 @@ export const isSuperAdmin = async (req, res, next, type = 1) => {
     if (!bearerToken) return sendBadRequestWith406Code(res, messages.authTokenRequired)
     const tokenInfo = await validateAccessToken(String(bearerToken).split(' ')[1], 'SUPER_ADMIN')
     // token and token id find n  ext step
+    console.log({ tokenInfo })
     if (!tokenInfo && !tokenInfo._id) return sendBadRequestWith406Code(res, messages.tokenFormatInvalid)
 
     const adminDetails = await UserModel.findOne(
@@ -54,10 +55,10 @@ export const isAdmin = async (req, res, next, type = 1) => {
     if (!bearerToken) return sendBadRequestWith406Code(res, messages.authTokenRequired)
     const tokenInfo = await validateAccessToken(String(bearerToken).split(' ')[1], 'ADMIN')
     // token and token id find n  ext step
-    if (!tokenInfo && !tokenInfo._id) return sendBadRequestWith406Code(res, messages.tokenFormatInvalid)
+    if (!tokenInfo && !tokenInfo?._id) return sendBadRequestWith406Code(res, messages.tokenFormatInvalid)
 
     const adminDetails = await UserModel.findOne(
-      { _id: tokenInfo._id },
+      { _id: tokenInfo?._id },
       {
         _id: 1,
         role: 1
