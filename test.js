@@ -1,3 +1,21 @@
+import dcom from 'node-dcom'
+
+// Create a DCOM instance of the Nest Trader COM object
+const nestTrader = dcom.createInstance('NestTrader.RTD')
+
+// Connect to Nest Trader
+nestTrader.connect()
+
+// Subscribe to real-time data
+nestTrader.subscribe('Price-Time Data')
+
+// Receive real-time data
+nestTrader.on('data', function (data) {
+  // Store the real-time data
+  // ...
+  console.log(data)
+})
+
 // if (constant.ROLE[1] === data?.role) {
 //     userData.ID = data?.ID?.toString().trim() ? data.ID : undefined
 //     userData.name = data?.name?.toString().trim() ? data.name : undefined

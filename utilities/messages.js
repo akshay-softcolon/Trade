@@ -18,6 +18,10 @@ const messages = {
   limitOfAddUserIsRequired: 'Limit of add user is required',
   brokerageIsRequired: 'Brokerage is required',
   investorPasswordIsRequired: 'Investor password is required',
+  YouAreNotAuthenticated: 'You are not authenticated',
+  YouAreNotAccessibleToDoThis: 'You are not accessible to do This.',
+  userNotFound: 'User not found',
+  NameUpdated: 'Name updated',
 
   // id
   idAlreadyExist: 'ID already exist',

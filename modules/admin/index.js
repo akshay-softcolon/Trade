@@ -1,9 +1,9 @@
 import express from 'express'
-import { changePassword, createAdmin, createMaster, createSuperMaster, createTrader, login } from './controller.js'
-import { isAdmin, isSuperAdmin } from '../../middleware/admin_validatior/admin_validator.js'
+import { changePassword, createAdmin, createMaster, createSuperMaster, createTrader, login, updateName, updateNameByParent } from './controller.js'
+import { isAdmin, isSuperAdmin, isSuperAdminWithUser } from '../../middleware/admin_validatior/admin_validator.js'
 import { isAuthorizeToCreateMaster, isAuthorizeToCreateUser, isMaster, isSuperMaster } from '../../middleware/master_validator/master_validator.js'
 import { isUser } from '../../middleware/user_validator/userValidator.js'
-import { check } from 'express-validator'
+import { check, query } from 'express-validator'
 import { validateField } from '../../middleware/field_validator/index.js'
 import messages from '../../utilities/messages.js'
 
@@ -87,5 +87,16 @@ validateField, createTrader)
 router.post('/user/login', login)
 
 router.put('/user/change/password', isUser, changePassword)
+
+router.put('/update/name', isAuthorizeToCreateUser, [
+  check('id').exists().withMessage(messages.IDIsRequired),
+  check('name').exists().withMessage(messages.nameIsRequired)
+],
+validateField, updateNameByParent)
+
+router.put('/update/name/user', isSuperAdminWithUser, [
+  check('name').exists().withMessage(messages.nameIsRequired)
+],
+validateField, updateName)
 
 export default router

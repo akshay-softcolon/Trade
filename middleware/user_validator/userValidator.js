@@ -2,6 +2,7 @@ import { sendBadRequest, sendBadRequestWith406Code } from '../../utilities/respo
 import messages from '../../utilities/messages.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 import { UserModel } from '../../modules/admin/model.js'
+import { isMaster } from '../master_validator/master_validator.js'
 
 export const isUser = async (req, res, next, type = 1) => {
   try {
@@ -37,6 +38,9 @@ export const isUser = async (req, res, next, type = 1) => {
     // next for using this method only
     next()
   } catch (e) {
+    if (type === 0) {
+      return await isMaster(req, res, next, type)
+    }
     const error = await returnTokenError(e, 'IS_USER')
     if (error !== messages.somethingGoneWrong) {
       return sendBadRequestWith406Code(res, error)

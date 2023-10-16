@@ -3,6 +3,7 @@ import messages from '../../utilities/messages.js'
 import { returnTokenError, validateAccessToken } from '../../helper/accessTokenHelper.js'
 import { isAdmin } from '../admin_validatior/admin_validator.js'
 import { UserModel } from '../../modules/admin/model.js'
+import { isUser } from '../user_validator/userValidator.js'
 
 export const isSuperMaster = async (req, res, next, type = 1) => {
   try {
@@ -97,6 +98,10 @@ export const isMaster = async (req, res, next, type = 1) => {
 
 export const isAuthorizeToCreateUser = async (req, res, next) => {
   await isMaster(req, res, next, 0)
+}
+
+export const isForAllUser = async (req, res, next) => {
+  await isUser(req, res, next, 0)
 }
 
 export const isAuthorizeToCreateMaster = async (req, res, next) => {

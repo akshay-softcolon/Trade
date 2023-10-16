@@ -1,22 +1,22 @@
-import database from "../../database/index.js";
-import server from "../../bin/www.js";
-import sleep from "../sleep.js";
+import database from '../../database/index.js'
+import server from '../../bin/www.js'
+import sleep from '../sleep.js'
 
-export async function shutDown(onError = false) {
-  console.log("XX-SERVER SHUTDOWN REQUEST RECIEVED-XX");
-  if (onError) await sleep(50000);
+export async function shutDown (onError = false) {
+  console.log('XX-SERVER SHUTDOWN REQUEST RECIEVED-XX')
+  if (onError) await sleep(50000)
   console.info(
     `Shutting Down Server and Resources ${
-      onError ? "Due to Error, For More Info Check Logs" : ""
+      onError ? 'Due to Error, For More Info Check Logs' : ''
     }`
-  );
-  console.log("Closing http server.");
+  )
+  console.log('Closing http server.')
   server.close(async () => {
-    console.log("Closing Database Connection.");
+    console.log('Closing Database Connection.')
     // boolean means [force], see in mongoose doc
     database.close(false, () => {
-      console.log("Shutdown Successfull!");
-      process.exit(0);
-    });
-  });
+      console.log('Shutdown Successfull!')
+      process.exit(0)
+    })
+  })
 }

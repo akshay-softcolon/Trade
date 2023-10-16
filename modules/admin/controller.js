@@ -9,6 +9,7 @@ import { generateAccessToken, tokenId } from '../../helper/accessTokenHelper.js'
 import { generateRefreshToken } from '../../helper/refreshTokenHelper.js'
 import constant from '../../utilities/constant.js'
 import { ExchangeModel } from '../exchange/model.js'
+import { adminIsAccessible, checkUpdater } from '../../middleware/admin_validatior/admin_validator.js'
 
 export const changePassword = async (req, res) => {
   try {
@@ -196,7 +197,43 @@ export const login = async (req, res) => {
     await user.save()
     return sendSuccess(res, { accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
   } catch (e) {
-    console.log(e)
     return sendBadRequest(res, errorHelper(e, 'LOGIN'))
+  }
+}
+
+export const updateNameByParent = async (req, res, next) => {
+  try {
+    const data = req.body
+    const userDetails = await UserModel.findOne({ _id: req.query.id })
+    if (!userDetails) return sendBadRequest(res, messages.userNotFound)
+    const admin = req.user ?? req.superAdmin ?? req.admin ?? req.master ?? req.superMaster
+    if (!(await checkUpdater(admin.role, userDetails?.role))) {
+      return sendBadRequest(res, messages.YouAreNotAccessibleToDoThis)
+    }
+    if (!(await adminIsAccessible(admin._id, userDetails.createdBy))) {
+      return sendBadRequest(res, messages.YouAreNotAuthenticated)
+    }
+    const checkForName = await UserModel.findOne({ name: data?.name })
+    if (checkForName) return sendBadRequest(res, messages.ThisNameIsAlreadyTaken)
+    userDetails.name = data?.name
+    await userDetails.save()
+    return sendSuccess(res, messages.NameUpdated)
+  } catch (e) {
+    return sendBadRequest(res, errorHelper(e, 'UPDATE_NAME_BY_PARENT'))
+  }
+}
+
+export const updateName = async (req, res) => {
+  try {
+    const data = req.body
+    const userDetails = await UserModel.findOne({ _id: req?.user?._id ?? req?.superAdmin?._id ?? req?.admin?._id ?? req?.master?._id ?? req?.superMaster?._id })
+    if (!userDetails) return sendBadRequest(res, messages.userNotFound)
+    const checkForName = await UserModel.findOne({ name: data?.name })
+    if (checkForName) return sendBadRequest(res, messages.ThisNameIsAlreadyTaken)
+    userDetails.name = data?.name
+    await userDetails.save()
+    return sendSuccess(res, messages.NameUpdated)
+  } catch (e) {
+    return sendBadRequest(res, errorHelper(e, 'UPDATE_NAME_SELF'))
   }
 }

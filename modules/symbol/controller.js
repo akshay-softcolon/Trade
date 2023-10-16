@@ -46,12 +46,10 @@ export const updateSymbol = async (req, res) => {
   try {
     // Body Data
     const data = req.body
-    console.log(req.params)
     // get symbol exist or not
     const symbolDetails = await SymbolModel.findOne({
       _id: req.params.symbolId
     })
-    console.log(symbolDetails)
     // if exist then give error
     if (!symbolDetails) return sendBadRequest(res, messages.symbolNotFound)
     if (data?.name?.toString().trim()) {
