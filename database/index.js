@@ -7,6 +7,7 @@ import { UserModel } from '../modules/admin/model.js'
 import { createMainAdmin } from '../modules/admin/controller.js'
 import { SymbolModel } from '../modules/symbol/model.js'
 import { ExchangeModel } from '../modules/exchange/model.js'
+import { socketConnection } from '../app-listen-socket.js'
 
 mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
@@ -24,6 +25,7 @@ db.once('open', async () => {
   logger.info({ message: 'MongoDB connected' })
   await syncAllModel()
   await createMainAdmin()
+  await socketConnection()
 })
 
 db.on('disconnecting', () => {

@@ -26,6 +26,8 @@ export const tokenId = () => {
 
 export const validateAccessToken = async (token, role) => {
   try {
+    console.log({ token })
+    console.log({ role })
     const tokenInfo = await jwt.verify(token, config[`${role}_SECRET`])
     return tokenInfo
   } catch (e) {

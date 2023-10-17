@@ -8,6 +8,10 @@ import app from '../app.js'
 import debugMessage from 'debug'
 import http from 'http'
 import { shutDown } from '../utilities/serverUtils/shutDown.js'
+import { instrument } from '@socket.io/admin-ui'
+import { Server } from 'socket.io'
+import { setIoObject } from '../app-socet.js'
+import config from '../config/index.js'
 
 const debug = debugMessage('planetx-blockchain-dgt-backend:server')
 
@@ -35,6 +39,8 @@ server.on('listening', onListening)
 /**
  * Normalize a port into a number, string, or false.
  */
+
+export let httpsServer
 
 function normalizePort (val) {
   const port = parseInt(val, 10)
@@ -77,8 +83,19 @@ function onError (error) {
       throw error
   }
 }
+const io = new Server(config.PROJECT_LEVEL === 'STAGE' ? httpsServer : server, {
+  cors: {
+    origin: '*'
+  }
+})
 
-/**
+instrument(io, {
+  auth: false,
+  mode: 'development'
+})
+
+await setIoObject(io) // Start WS/WSS Server
+/*
  * Event listener for HTTP server "listening" event.
  */
 
