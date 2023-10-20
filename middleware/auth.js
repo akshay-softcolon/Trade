@@ -20,4 +20,5 @@ export const authenticate = async (req, res, next) => {
   //   }
   // }
   // return response.sendError(res, messages.unauthorized_login)
+  next()
 }

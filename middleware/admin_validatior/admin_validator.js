@@ -38,6 +38,7 @@ export const isSuperAdmin = async (req, res, next, type = 1) => {
 
     // Attach Admin Info
     req.superAdmin = adminDetails
+    console.log(req.superAdmin)
     // next for using this method only
     next()
   } catch (e) {

@@ -12,7 +12,7 @@ export const socketConnection = () => {
   // const patch = socketioWildcard(io.Manager)
   // patch(socket)
   socket.on('userConnected', (data) => {
-    console.log(data)
+    // console.log(data)
   })
 
   // socket.emit('joinRoom', ['AUBANK23OCTFUT'])
@@ -20,7 +20,7 @@ export const socketConnection = () => {
   //   socket.emit('leaveRoom', 'AUBANK23OCTFUT')
   // }, 20000)
   socket.on('data', async (packet) => {
-    console.log(packet?.['Trading Symbol'])
+    // console.log(packet?.['Trading Symbol'])
     await sendEmitDataToRoom(packet?.['Trading Symbol'], 'data', packet)
     // await sendEmitDataToRoom('abc', 'data', packet)
     // console.log(packet)

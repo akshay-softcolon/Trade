@@ -4,6 +4,7 @@ import logger from './utilities/logger.js'
 
 let io = ''
 export const symbols = new Map()
+export const userIds = new Map()
 export const setIoObject = async (socketIo) => {
   logger.info('Socket connection start')
   io = socketIo
@@ -37,15 +38,18 @@ export const setSocket = async (io) => {
         // socket.join('CRUDEOIL23OCTFUT')
         console.log(socket.userId, '===============================')
         // await jooinRoom()
-        socket.id = socket.userId
-        await joinUserRoom(socket.id, socket)
+        userIds.set(socket.id, socket.userId)
+        const userId = userIds.get(socket.id)
+        // socket.id = '123456789'
+        console.log(userId, '++++++++++++++++')
+        await joinUserRoom(userId, socket)
 
         socket.on('leaveRoom', async function (room) {
-          await leaveRoom(room, socket.id, socket)
+          await leaveRoom(room, userId, socket)
         })
 
         socket.on('reJoinRoom', async function () {
-          await joinUserRoom(socket.id, socket)
+          await joinUserRoom(userId, socket)
         })
         // userMaps.set(socket.userId, socket.id)
         // userMaps.set(socket.id, socket.userId)
@@ -67,8 +71,10 @@ export const setSocket = async (io) => {
         // })
 
         socket.on('disconnect', async function () {
-          await leaveRoom('all', socket.id, socket)
+          // const userID = userIds.get(socket.id)
+          await leaveRoom('all', userId, socket)
           console.log('A user disconnected')
+          userIds.delete(socket.id)
         })
       })
   } catch (e) {

@@ -6,7 +6,7 @@ import messages from '../utilities/messages.js'
 export const generateAccessToken = (data, role) => {
   switch (role) {
     case 'SUPER_ADMIN':
-      return jwt.sign(data, config.SUPER_ADMIN_SECRET, { expiresIn: '30m' })
+      return jwt.sign(data, config.SUPER_ADMIN_SECRET)
     case 'ADMIN':
       return jwt.sign(data, config.ADMIN_SECRET, { expiresIn: '30m' })
     case 'SUPER_MASTER':

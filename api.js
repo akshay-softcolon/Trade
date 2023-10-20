@@ -25,14 +25,18 @@ const handlers = {
 
 for (const m in handlers) {
   if (handlers[m].authenticate) {
+    console.log('1')
     if (handlers[m].module) {
+      console.log('2')
       router.use(
         '/' + m,
         authenticate,
         hasAccess(handlers[m].module),
         handlers[m].path
       )
+      console.log(handlers[m].module)
     } else {
+      console.log('3')
       router.use('/' + m, authenticate, handlers[m].path)
     }
   } else {

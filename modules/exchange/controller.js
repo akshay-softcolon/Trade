@@ -1,3 +1,4 @@
+import constant from '../../utilities/constant.js'
 import logger from '../../utilities/logger.js'
 import messages from '../../utilities/messages.js'
 import { sendBadRequest, sendSuccess } from '../../utilities/response/index.js'
@@ -19,7 +20,9 @@ export const createExchange = async (req, res) => {
 
     const exchange = await new ExchangeModel({
       name: data.name,
-      symbols: data.symbols
+      symbols: data.symbols,
+      status: constant.EXCHANGE_STATUS.includes(data?.status) ? data.status : undefined,
+      stopLoss: Object.keys(data).includes('stopLoss') ? data?.stopLoss : undefined
     }).save()
 
     return sendSuccess(res, exchange, messages.exchangeCreated)
@@ -50,6 +53,12 @@ export const updateExchange = async (req, res) => {
       exchangeDetails.name = data?.name?.toString().trim()
         ? data.name
         : undefined
+    }
+    if (constant.EXCHANGE_STATUS.includes(data?.status)) {
+      exchangeDetails.status = data?.status
+    }
+    if (Object.keys(data).includes('stopLoss')) {
+      exchangeDetails.stopLoss = data?.stopLoss
     }
 
     await exchangeDetails.save()

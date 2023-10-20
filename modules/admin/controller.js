@@ -195,7 +195,7 @@ export const login = async (req, res) => {
     user.accessTokenId = accessTokenId
     user.refreshTokenId = refreshTokenId
     await user.save()
-    return sendSuccess(res, { accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
+    return sendSuccess(res, { id: user.id, accessToken, refreshToken, role: user.role }, messages.adminLoggedIn)
   } catch (e) {
     return sendBadRequest(res, errorHelper(e, 'LOGIN'))
   }

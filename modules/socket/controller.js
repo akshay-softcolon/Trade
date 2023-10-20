@@ -13,7 +13,7 @@ export const joinAllRooms = (abc, socket) => {
 
 export const joinUserRoom = async (uId, socket) => {
   // getting array from user model restricted symbols
-  const rooms = ['AUBANK23OCTFUT', 'CRUDEOIL23OCTFUT']
+  const rooms = ['AUBANK23OCTFUT', 'CRUDEOIL23OCTFUT', 'AUROPHARMA23OCTFUT']
   // socket in userId assign part is pending
   for (const i of rooms) {
     if (symbols.get(i)) {
