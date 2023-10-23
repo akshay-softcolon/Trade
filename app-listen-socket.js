@@ -20,7 +20,6 @@ export const socketConnection = () => {
   //   socket.emit('leaveRoom', 'AUBANK23OCTFUT')
   // }, 20000)
   socket.on('data', async (packet) => {
-    // console.log(packet?.['Trading Symbol'])
     await sendEmitDataToRoom(packet?.['Trading Symbol'], 'data', packet)
     // await sendEmitDataToRoom('abc', 'data', packet)
     // console.log(packet)

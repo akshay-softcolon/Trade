@@ -37,10 +37,9 @@ export const updateExchange = async (req, res) => {
   try {
     // Body Data
     const data = req.body
-
     // get symbol exist or not
     const exchangeDetails = await ExchangeModel.findOne({
-      id: req.params.exchangeId
+      _id: req.params.exchangeId
     })
 
     // if exist then give error
@@ -60,7 +59,6 @@ export const updateExchange = async (req, res) => {
     if (Object.keys(data).includes('stopLoss')) {
       exchangeDetails.stopLoss = data?.stopLoss
     }
-
     await exchangeDetails.save()
     return sendSuccess(res, messages.exchangeUpdated)
   } catch (e) {

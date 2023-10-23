@@ -13,6 +13,16 @@ mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+// const client = new MongoClient(config.DATABASE.MONGO.URI, { useUnifiedTopology: true})
+
+// const connectToMongo()=>{
+// try{
+// await client.connect()
+
+// }catch(err){
+
+// }
+// }
 
 const db = mongoose.connection
 

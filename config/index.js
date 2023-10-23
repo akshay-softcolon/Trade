@@ -44,6 +44,8 @@ export default {
   MASTER_REFRESH_SECRET: process.env.MASTER_REFRESH_SECRET,
   USER_SECRET: process.env.USER_JWT_SECRET,
   USER_REFRESH_SECRET: process.env.USER_REFRESH_JWT_SECRET,
+  ROOT_ADMINS: process.env.ROOT_ADMINS,
+  ROOT_ADMINS_DOMAINS: process.env.ROOT_ADMINS_DOMAINS,
 
   // mongo field encryption
   MONGO_FIELD_SECRET: process.env.MONGO_FIELD_SECRET

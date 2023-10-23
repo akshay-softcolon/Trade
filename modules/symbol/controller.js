@@ -44,7 +44,7 @@ export const createSymbol = async (req, res) => {
 
 export const updateSymbol = async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
     // Body Data
     const data = req.body
     // get symbol exist or not

@@ -36,12 +36,12 @@ export const setSocket = async (io) => {
       // .use(isValidUser) // Validate User Bearer Token
       .on('connection', async (socket) => { // On socket connection
         // socket.join('CRUDEOIL23OCTFUT')
-        console.log(socket.userId, '===============================')
+        // console.log(socket.userId, '===============================')
         // await jooinRoom()
         userIds.set(socket.id, socket.userId)
         const userId = userIds.get(socket.id)
         // socket.id = '123456789'
-        console.log(userId, '++++++++++++++++')
+        // console.log(userId, '++++++++++++++++')
         await joinUserRoom(userId, socket)
 
         socket.on('leaveRoom', async function (room) {

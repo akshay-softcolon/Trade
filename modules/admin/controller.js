@@ -10,6 +10,9 @@ import { generateRefreshToken } from '../../helper/refreshTokenHelper.js'
 import constant from '../../utilities/constant.js'
 import { ExchangeModel } from '../exchange/model.js'
 import { adminIsAccessible, checkUpdater } from '../../middleware/admin_validatior/admin_validator.js'
+import { TenantModel } from '../entry/model.js'
+import { dbChange, getDBModel, switchDB } from '../../middleware/tenant/db.js'
+import db from '../../database/index.js'
 
 export const changePassword = async (req, res) => {
   try {
@@ -101,19 +104,46 @@ export const createMaster = async (req, res) => {
   }
 }
 
+// const tenantSchemas = new Map([['tenants', TenantModel]])
+
 export const createMainAdmin = async () => {
   try {
-    const admin = await UserModel.findOne({ ID: config.ADMIN_ID })
-    if (!admin) {
-      const adminData = {
-        firstName: 'Super',
-        lastName: 'Admin',
-        ID: config.ADMIN_ID,
-        password: bcrypt.hashSync(config.ADMIN_PASSWORD, 10),
-        role: 'SUPER_ADMIN'
-      }
-      await new UserModel(adminData).save()
-    }
+    const database = await dbChange('MT003', 'users')
+    const adminDetails = await database.find({}).toArray()
+    console.log(adminDetails)
+
+    // const database = db.useDb('MT002')
+    // const user = database.collection('users')
+    // const data = await database.find({})
+    // console.log(data)
+    // console.log(user, 'ttt')
+    // console.log('hii1')
+    // const db = await switchDB('entryTenants', tenantSchemas)
+    // console.log('hii2')
+    // const model = await getDBModel(database, 'tenants')
+    // console.log('hii')
+
+    // for (let i = 0; i < config.ROOT_ADMINS.length; i++) {
+    //   const adminDetails = await model.findOne({ Domain: config.ROOT_ADMINS_DOMAINS[i] })
+    //   if (!adminDetails) return
+    //   console.log(adminDetails)
+    // }
+
+    // const admin = await UserModel.findOne({ ID: config.ADMIN_ID })
+    // if (!admin) {
+    //   const adminData = {
+    //     firstName: 'Super',
+    //     lastName: 'Admin',
+    //     ID: config.ADMIN_ID,
+    //     password: bcrypt.hashSync(config.ADMIN_PASSWORD, 10),
+    //     role: 'SUPER_ADMIN'
+    //   }
+    //   const admin = await new UserModel(adminData).save()
+    //   await new TenantModel({
+    //     tenantId: admin.ID,
+    //     Domain: "Softcolon"
+    //   })
+    // }
   } catch (e) {
     logger.error('CREATE_MAIN_ADMIN')
     logger.error(e)

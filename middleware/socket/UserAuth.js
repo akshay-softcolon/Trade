@@ -53,9 +53,9 @@ export const isValidUser = async (socket, next) => { // Validate Socket connecti
     if (socket.handshake.headers.authorization) {
       // if (!(socket.handshake.headers && socket.handshake.headers.authorization)) return next(new Error('Authentication error')) // Auth token required
       if (!(socket.handshake.headers && socket.handshake.headers.authorization)) return next(new Error('Authentication error')) // Auth token required
-      console.log(socket.handshake.headers.authorization)
+      // console.log(socket.handshake.headers.authorization)
       const tokenInfo = await validateAccessToken(String(socket.handshake.headers.authorization).split(' ')[1], 'SUPER_ADMIN')
-      console.log('tokenInfo', tokenInfo)
+      // console.log('tokenInfo', tokenInfo)
 
       if (!(tokenInfo && tokenInfo._id)) return next(new Error(messages.tokenFormatInvalid)) // Validate token
 

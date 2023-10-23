@@ -24,42 +24,42 @@ export const joinUserRoom = async (uId, socket) => {
     }
     socket.join(i)
   }
-  console.log(symbols)
+  // console.log(symbols)
 }
 
 export const leaveRoom = async (room, uId, socket) => {
-  console.log(room, '--------------------------------')
-  console.log(room === 'all')
+  // console.log(room, '--------------------------------')
+  // console.log(room === 'all')
   // find user by socket.id
   if (room === 'all') {
-    console.log('enter')
-    console.log(symbols)
+    // console.log('enter')
+    // console.log(symbols)
     const rooms = ['AUBANK23OCTFUT', 'CRUDEOIL23OCTFUT']
     // const rooms = userRoom.filter((n) => !room.includes(n))
     for (const i of rooms) {
       const leaveRoomId = symbols.get(i)
-      console.log({ leaveRoomId })
+      // console.log({ leaveRoomId })
       if (leaveRoomId) {
-        console.log(symbols?.get(i)?.indexOf(uId))
+        // console.log(symbols?.get(i)?.indexOf(uId))
         await leaveRoomId.splice(symbols?.get(i)?.indexOf(uId), 1)
         symbols.set(i, leaveRoomId)
-        console.log({ leaveRoomId })
+        // console.log({ leaveRoomId })
         if (leaveRoomId.length === 0) {
-          console.log(i, 'dfds')
+          // console.log(i, 'dfds')
           symbols.delete(i)
           removeRoom(i)
         }
       }
       socket.leave(i)
-      console.log('i', i)
+      // console.log('i', i)
     }
-    console.log(symbols)
+    // console.log(symbols)
   } else {
     const userRoom = ['AUBANK23OCTFUT', 'CRUDEOIL23OCTFUT']
     const rooms = userRoom.filter((n) => !room.includes(n))
     for (const i of rooms) {
-      console.log({ i })
-      console.log({ uId })
+      // console.log({ i })
+      // console.log({ uId })
       const leaveRoomId = symbols.get(i)
       if (leaveRoomId) {
         await leaveRoomId.splice(symbols?.get(i)?.indexOf(uId), 1)
@@ -71,8 +71,8 @@ export const leaveRoom = async (room, uId, socket) => {
         }
       }
       socket.leave(i)
-      console.log('i', i)
+      // console.log('i', i)
     }
-    console.log(symbols)
+    // console.log(symbols)
   }
 }
