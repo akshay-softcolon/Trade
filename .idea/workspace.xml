@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="2ef1453e-a709-448d-81ba-03a7891f2545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/symbol/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/symbol/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-listen-socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-listen-socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helper/accessTokenHelper.js" beforeDir="false" afterPath="$PROJECT_DIR$/helper/accessTokenHelper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/admin_validatior/admin_validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/admin_validatior/admin_validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/master_validator/master_validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/master_validator/master_validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/user_validator/userValidator.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/user_validator/userValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/admin/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/admin/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/admin/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/admin/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/exchange/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/exchange/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/exchange/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/exchange/model.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +47,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tenants&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/akshay/Documents/Softcolon/Trade/utilities&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -48,6 +57,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -86,6 +96,7 @@
       <workItem from="1696306250975" duration="598000" />
       <workItem from="1696335377307" duration="598000" />
       <workItem from="1696390396627" duration="1390000" />
+      <workItem from="1698292366922" duration="15045000" />
     </task>
     <servers />
   </component>
@@ -102,5 +113,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/modules/admin/controller.js</url>
+          <line>219</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

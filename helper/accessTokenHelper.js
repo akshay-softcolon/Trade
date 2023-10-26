@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import config from '../config/index.js'
 import logger from '../utilities/logger.js'
 import messages from '../utilities/messages.js'
+
 export const generateAccessToken = (data, role) => {
   switch (role) {
     case 'SUPER_ADMIN':
@@ -26,10 +27,8 @@ export const tokenId = () => {
 
 export const validateAccessToken = async (token, role) => {
   try {
-    console.log({ token })
-    console.log({ role })
-    const tokenInfo = await jwt.verify(token, config[`${role}_SECRET`])
-    return tokenInfo
+    console.log(token, role)
+    return await jwt.verify(token, config[`${role}_SECRET`])
   } catch (e) {
     return null
   }

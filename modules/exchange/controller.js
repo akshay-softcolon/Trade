@@ -4,6 +4,7 @@ import messages from '../../utilities/messages.js'
 import { sendBadRequest, sendSuccess } from '../../utilities/response/index.js'
 import { SymbolModel } from '../symbol/model.js'
 import { ExchangeModel } from './model.js'
+import { UserModel } from '../admin/model.js'
 
 export const createExchange = async (req, res) => {
   try {
@@ -24,6 +25,14 @@ export const createExchange = async (req, res) => {
       status: constant.EXCHANGE_STATUS.includes(data?.status) ? data.status : undefined,
       stopLoss: Object.keys(data).includes('stopLoss') ? data?.stopLoss : undefined
     }).save()
+
+    const administrator = await UserModel.find({ role: constant.ROLE[0] })
+    if (administrator.length > 0) {
+      administrator.forEach(async (admin) => {
+        admin.allowedExchange.push(exchange._id)
+        await admin.save()
+      })
+    }
 
     return sendSuccess(res, exchange, messages.exchangeCreated)
   } catch (e) {
@@ -84,7 +93,7 @@ export const getExchange = async (req, res) => {
       }
     }
 
-    const exchanges = await ExchangeModel.find(options).select('name').populate('symbols', 'name')
+    const exchanges = await ExchangeModel.find(options).select('name status stopLoss createdAt updatedAt').populate('symbols', 'name')
     return sendSuccess(res, exchanges)
   } catch (e) {
     logger.error('GET_EXCHANGE')
@@ -99,6 +108,14 @@ export const deleteExchange = async (req, res) => {
       _id: req.params?.exchangeId
     })
     if (!exchangeDetails) return sendBadRequest(res, messages.exchangeNotFound)
+
+    const users = await UserModel.find({ allowedExchange: req.params?.exchangeId })
+    if (users.length > 0) {
+      users.forEach(async (user) => {
+        await user.allowedExchange.splice(user.allowedExchange.findIndex((i) => i.equals(req.params?.exchangeId)), 1)
+        await user.save()
+      })
+    }
     await exchangeDetails.delete()
     return sendSuccess(res, messages.exchangeDeleted)
   } catch (e) {
@@ -119,11 +136,11 @@ export const exchangeInAddSymbols = async (req, res) => {
     for (const symbol of data?.symbols) {
       const symbolDetails = await SymbolModel.findOne({ _id: symbol })
       if (!symbolDetails) return sendBadRequest(res, messages.symbolNotFound)
-      const exchangeDetailsForSymbol = await ExchangeModel.findOne().where('symbols').equals(symbol)
+      const exchangeDetailsForSymbol = await ExchangeModel.findOne({ _id: req.params.exchangeId }).where('symbols').equals(symbol)
       if (exchangeDetailsForSymbol) return sendBadRequest(res, messages.symbolIsAlreadyTaken)
       await exchangeDetails.symbols.push(symbol)
     }
-
+    console.log(exchangeDetails)
     await exchangeDetails.save()
     return sendSuccess(res, messages.symbolsAddedInExchange)
   } catch (e) {

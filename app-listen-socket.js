@@ -6,8 +6,8 @@ import { sendEmitDataToRoom } from './app-socet.js'
 
 let socket28 = ''
 export const socketConnection = () => {
-  // const socket = io('https://diamond.555exch.com:8443')
-  const socket = io('http://localhost:3002/')
+  const socket = io('https://diamond.555exch.com:8443')
+  // const socket = io('http://localhost:3002/')
   socket28 = socket
   // const patch = socketioWildcard(io.Manager)
   // patch(socket)

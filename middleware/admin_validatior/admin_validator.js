@@ -103,6 +103,7 @@ export const isAdmin = async (req, res, next, type = 1) => {
     // if token find then verify
     if (!bearerToken) return sendBadRequestWith406Code(res, messages.authTokenRequired)
     const tokenInfo = await validateAccessToken(String(bearerToken).split(' ')[1], 'ADMIN')
+    console.log(tokenInfo)
     // token and token id find n  ext step
     if (!tokenInfo && !tokenInfo?._id) return sendBadRequestWith406Code(res, messages.tokenFormatInvalid)
 
@@ -126,7 +127,7 @@ export const isAdmin = async (req, res, next, type = 1) => {
     // if (adminDetails.deleted) return sendBadRequestWith406Code(res, messages.accountDeleted)
 
     // Attach Admin Info
-    req.admin = adminDetails
+    req.admins = adminDetails
     // next for using this method only
     next()
   } catch (e) {

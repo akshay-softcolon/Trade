@@ -8,6 +8,10 @@ const userSchema = new Schema(
       type: String,
       trim: true
     },
+    tenantId: {
+      type: ObjectId,
+      ref: 'users'
+    },
     password: {
       type: String,
       trim: true
@@ -84,5 +88,7 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 )
+
+userSchema.index({ ID: 1, tenantId: 1, name: 1, surname: 1 }, { unique: true })
 
 export const UserModel = mongoose.model('users', userSchema)

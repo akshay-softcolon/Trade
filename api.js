@@ -5,6 +5,7 @@ import { hasAccess } from './middleware/hasAccess.js'
 import adminRoute from './modules/admin/index.js'
 import symbolRoute from './modules/symbol/index.js'
 import exchangeRoute from './modules/exchange/index.js'
+import { sendBadRequest } from './utilities/response/index.js'
 
 const router = express.Router()
 
@@ -45,7 +46,8 @@ for (const m in handlers) {
 }
 
 router.use('*', (req, res) => {
-  res.send({ code: 400, message: 'API not found' })
+  return sendBadRequest(res, 'API not found')
+  // res.send({ code: 400, message: 'API not found' })
 })
 
 export default router

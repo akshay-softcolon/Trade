@@ -14,10 +14,12 @@ const exchangeSchema = new Schema(
     }],
     status: {
       type: String,
-      enum: constant.EXCHANGE_STATUS
+      enum: constant.EXCHANGE_STATUS,
+      default: constant.EXCHANGE_STATUS[0]
     },
     stopLoss: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

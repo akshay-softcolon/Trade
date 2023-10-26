@@ -18,7 +18,8 @@ export const isSuperMaster = async (req, res, next, type = 1) => {
       { _id: tokenInfo._id },
       {
         _id: 1,
-        role: 1
+        role: 1,
+        tenantId: 1
       }
     )
 
@@ -64,7 +65,8 @@ export const isMaster = async (req, res, next, type = 1) => {
       { _id: tokenInfo._id },
       {
         _id: 1,
-        role: 1
+        role: 1,
+        tenantId: 1
       }
     )
 
